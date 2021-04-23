@@ -20,6 +20,10 @@
 #define GREEN_3 RGBToColor(0x225918)
 #define GREEN_4 RGBToColor(0x174a1b)
 
+#define FRAME_DELAY 32000
+#define DO_SPEED_UP false
+#define SPEED_UP 1000
+
 typedef struct Vector2 {
     unsigned short x;
     unsigned short y;
@@ -237,6 +241,7 @@ int main(){
         std::deque<Vector2> snakePos;
         snakePos.push_back( {11, 10} );
         unsigned short framesdone = 0;
+        int loopsToDoFrame = FRAME_DELAY;
 
         while (true){ // Run until game should exit
             scanKeys(); // Populate keys pressed
@@ -248,7 +253,7 @@ int main(){
             if (isPressed(keys, KEYPAD_BITS::KEY_SELECT) || isPressed(keys, KEYPAD_BITS::KEY_START)) pause = !pause; // if selecto or start is pressed pause game loop
             
             if (!pause || !firstRan) {
-                if (framesdone >= 32000) { // after 32000 iterations
+                if (framesdone >= loopsToDoFrame) { // after 32000 iterations
                     framesdone = 0; // Reset framesdone
                     Vector2 tmpPos = snakePos[0]; // Get copy of current head position
 
@@ -277,6 +282,7 @@ int main(){
                         while (isColliding(snakePos, foodPos)){ // If food is touching snake
                             foodPos = {randint(0, 25), randint(0, 15)}; // Then reset game
                         }
+                        if (DO_SPEED_UP) loopsToDoFrame -= SPEED_UP;
                     } else { // head isn't on food, default to this
                         drawNxN(snakePos.back().x*8+16, snakePos.back().y*8+16, 8, 8, GRASS_COLOR); // Remove extra tail piece
                         snakePos.pop_back(); // Remove end of tail as snake must stay same length
@@ -294,7 +300,7 @@ int main(){
                     //drawNxN(snakePos.back().x*8+16, snakePos.back().y*8+16, 8, 8, SNEK_BODY_COLOR); // Draw tail
                     drawNxN(foodPos.x*8+16, foodPos.y*8+16, 8, 8, APPLE_COLOR); // Draw apple
 
-                    firstRan = true; // Reset framesdone
+                    firstRan = true; // say that the first frame ran
                 }
                 framesdone++; // Increase iteration counter
             } else {
