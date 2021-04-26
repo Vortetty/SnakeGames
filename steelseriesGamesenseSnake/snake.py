@@ -12,7 +12,7 @@ import requests
 from switchcase import switch
 
 version = "1.0.0"
-gs = gamesense.GameSense("SNAKE_V2", f"Snake {version}", "Winter (github.com/vortetty)")
+gs = gamesense.GameSense("SNAKE_V2", f"Snake v{version}", "Winter (github.com/vortetty)")
 
 resolution = [128, 40]
 screen = [ 0 for _ in range(resolution[0]*resolution[1]) ]
