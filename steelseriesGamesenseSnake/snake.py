@@ -11,7 +11,7 @@ import random
 import requests
 from switchcase import switch
 
-version = "0.0.1"
+version = "1.0.0"
 gs = gamesense.GameSense("SNAKE_V2", f"Snake {version}", "Winter (github.com/vortetty)")
 
 resolution = [128, 40]
